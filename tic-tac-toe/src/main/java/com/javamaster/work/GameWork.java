@@ -66,7 +66,26 @@ public class GameWork {
         }
 
         int[][] board = game.getBoard();
+        String a = gamePlay.getType().name();
         board[gamePlay.getCoordinateX()][gamePlay.getCoordinateY()] = gamePlay.getType().getValue();
+
+//        State state = new State(0, this.twoDToOneDArray(board));
+        if (game.getPlayer2() == null) {
+            game.setBoard(this.oneDToTwoDArray(new AdversarialSearchTicTacToe().minMaxDecision(new State(0, this.twoDToOneDArray(board)))));
+        }
+
+//        if (game.getPlayer2() == null ) {
+//            game.setBoard(this.oneDToTwoDArray(new AdversarialSearchTicTacToe().minMaxDecision(new State(0,
+//                    new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8"}))));
+//            Player p = new Player();
+//            p.setLogin("Computer");
+//            game.setPlayer2(p);
+//        } else if (game.getPlayer2().getLogin().equals("Computer")) {
+//            game.setBoard(this.oneDToTwoDArray(new AdversarialSearchTicTacToe().minMaxDecision(new State(0,
+//                    this.twoDToOneDArray(board)))));
+//        }
+
+
 
         Boolean xWinner = winner(game.getBoard(), TicTacToe.X);
         Boolean oWinner = winner(game.getBoard(), TicTacToe.O);
@@ -104,5 +123,31 @@ public class GameWork {
             }
         }
         return false;
+    }
+
+    private int[][] oneDToTwoDArray(String[] oneD) {
+        int[][] board = new int[3][3];
+        board[0][0] = oneD[0].equals("O") ? 2 : oneD[0].equals("X") ? 1 : 0;
+        board[0][1] = oneD[1].equals("O") ? 2 : oneD[1].equals("X") ? 1 : 0;
+        board[0][2] = oneD[2].equals("O") ? 2 : oneD[2].equals("X") ? 1 : 0;
+        board[1][0] = oneD[3].equals("O") ? 2 : oneD[3].equals("X") ? 1 : 0;
+        board[1][1] = oneD[4].equals("O") ? 2 : oneD[4].equals("X") ? 1 : 0;
+        board[1][2] = oneD[5].equals("O") ? 2 : oneD[5].equals("X") ? 1 : 0;
+        board[2][0] = oneD[6].equals("O") ? 2 : oneD[6].equals("X") ? 1 : 0;
+        board[2][1] = oneD[7].equals("O") ? 2 : oneD[7].equals("X") ? 1 : 0;
+        board[2][2] = oneD[8].equals("O") ? 2 : oneD[8].equals("X") ? 1 : 0;
+        return board;
+    }
+
+    private String[] twoDToOneDArray(int[][] twoD) {
+        String[] oneD = new String[9];
+        int index = 0;
+        for (int row = 0; row < twoD.length; row++) {
+            for (int col = 0; col < twoD[row].length; col++) {
+                oneD[index] = twoD[row][col] == 1 ? "X" : twoD[row][col] == 2 ? "O" : String.valueOf(index);
+                index++;
+            }
+        }
+        return oneD;
     }
 }
